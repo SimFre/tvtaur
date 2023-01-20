@@ -16,11 +16,23 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "$APP",
+          "$APP/**",
+          "$DESKTOP/*",
+          "$RESOURCE/resources/*"
+        ]
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
+      "category": "Video",
       "copyright": "",
       "deb": {
         "depends": []
@@ -33,7 +45,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.example.tvtaur",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

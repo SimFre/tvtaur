@@ -25,3 +25,5 @@ dist-ssr
 * copy.vue
 db/*
 config/*
+* copy.*
+private/*
