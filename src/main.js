@@ -42,8 +42,10 @@ import TabPanel from 'primevue/tabpanel';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToggleButton from 'primevue/togglebutton';
+import Tree from 'primevue/tree';
 import TreeTable from 'primevue/treetable';
 import 'primevue/resources/themes/saga-blue/theme.css' //theme
+import 'primeflex/primeflex.css'
 import 'primevue/resources/primevue.min.css' //core css
 import 'primeicons/primeicons.css' //icons
 
@@ -88,6 +90,7 @@ app.component("TabPanel", TabPanel);
 app.component("Textarea", Textarea);
 app.component("Toast", Toast);
 app.component("ToggleButton", ToggleButton);
+app.component("Tree", Tree);
 app.component("TreeTable", TreeTable);
 
 app.mount('#app')
