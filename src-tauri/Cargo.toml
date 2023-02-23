@@ -1,9 +1,9 @@
 [package]
 name = "tvtaur"
 version = "0.0.0"
-description = "A Tauri App"
+description = "Application for watching IPTV from Xtream sources"
 authors = ["you"]
-license = ""
+license = "GPL-2.0-only"
 repository = ""
 edition = "2021"
 rust-version = "1.57"

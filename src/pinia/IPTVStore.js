@@ -1,5 +1,7 @@
 import { ref } from "vue";
-import { defineStore } from "pinia";
+import { defineStore, acceptHMRUpdate } from "pinia";
+import * as path from "@tauri-apps/api/path";
+import * as fs from "@tauri-apps/api/fs";
 
 export const useIPTVStore = defineStore("IPTVStore", {
   state: () => {
@@ -16,15 +18,49 @@ export const useIPTVStore = defineStore("IPTVStore", {
   },
   actions: {
     async init() {
-      this.providers.push({
-        id: 0,
-        name: import.meta.env.VITE_PROVIDER,
-        hostname: import.meta.env.VITE_HOSTNAME,
-        username: import.meta.env.VITE_USERNAME,
-        password: import.meta.env.VITE_PASSWORD,
-        live: []
-      });
-      return true;
+      try {
+        const configFilename = import.meta.env.VITE_CONFIGFILE;
+        const configFilepath = await path.resolveResource("resources/" + configFilename);
+        const configFound = await fs.exists(configFilename, { dir: path.BaseDirectory.Resource });
+
+
+        /// FIXME THE SCOPE NEEDS TO BE SET.
+        if (configFound) {
+        const configDocument = await fs.readTextFile(configFilepath);
+        const config = await JSON.parse(configDocument);
+        console.log("Loaded Config", config);
+        this.providers = config.providers;
+        return true;
+        }
+        else {
+          console.log("No config file found.");
+          return false;
+        }
+      } catch (err) {
+        console.log("Init Error", err);
+        return false;
+      }
+    },
+
+    async save() {
+      try {
+        const configData = {
+          "timestamp": Date.toISOString(),
+          "providers": structuredClone(this.providers)
+        };
+        const configFilename = import.meta.env.VITE_CONFIGFILE;
+        const configFilepath = await path.resolveResource("resources/" + configFilename);
+        const configDocument = await fs.writeTextFile({
+            path: configFilepath,
+            contents: JSON.stringify(configData)
+          },
+          { dir: BaseDirectory.Resource }
+        );
+        return configDocument;
+      } catch (err) {
+        console.log("Save Error", err);
+        return false;
+      }
     },
 
     getProviders() {
@@ -93,3 +129,6 @@ export const useIPTVStore = defineStore("IPTVStore", {
     },
   },
 });
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useIPTVStore, import.meta.hot));
+}

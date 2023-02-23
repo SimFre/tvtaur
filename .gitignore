@@ -21,9 +21,12 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+*.bak
 *.sw?
 * copy.vue
 db/*
 config/*
 * copy.*
 private/*
+*.local.json
+*.local.conf

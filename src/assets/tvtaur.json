@@ -1,0 +1,10 @@
+{
+  "providers": [
+    {
+      "name": "My Provider",
+      "hostname": "http://example.tld:8080",
+      "username": "aaaaaaaa",
+      "password": "bbbbbbbb"
+    }
+  ]
+}
