@@ -23,7 +23,8 @@
           "$APP",
           "$APP/**",
           "$DESKTOP/*",
-          "$RESOURCE/resources/*"
+          "$RESOURCE/resources/*",
+          "$HOME/**"
         ]
       },
       "path": {
@@ -54,7 +55,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "resources/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {

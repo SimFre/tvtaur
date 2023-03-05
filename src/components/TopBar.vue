@@ -1,27 +1,44 @@
 
 <script setup>
-
+  import { ref } from 'vue';
+  const active = ref(3);
+  const items = ref([
+    {
+      label: 'Live TV',
+      icon: 'pi pi pi-globe',
+      to: '/live'
+    },
+    {
+      label: 'VOD',
+      icon: 'pi pi-eye',
+      to: '/vod',
+      disabled: true
+    },
+    {
+      label: 'Series',
+      icon: 'pi pi-video',
+      to: '/series',
+      disabled: true
+    },
+    {
+      label: 'Favorites',
+      icon: 'pi pi-heart',
+      to: '/favorites',
+      disabled: true
+    },
+    {
+      label: 'Streamer',
+      icon: 'pi pi-truck',
+      to: '/streamer'
+    },
+    {
+      label: 'Settings',
+      icon: 'pi pi-cog',
+      to: '/settings'
+    },
+  ]);
 </script>
 
-<template><!-- <TabView>
-    <TabPanel header="Live TV"
-              icon="pi pi-globe">
-      Live TV
-    </TabPanel>
-    <TabPanel header="Video on Demand"
-              icon="pi pi-eye">
-      asdasda
-    </TabPanel>
-    <TabPanel header="Series"
-              icon="pi pi-video">
-      Content III
-    </TabPanel>
-    <TabPanel header="Series"
-              icon="pi pi-video">
-      Content III
-    </TabPanel>
-  </TabView> -->
-    <router-link to="/welcome">Welcome</router-link>
-    <router-link to="/play">Play</router-link>
-    <router-link to="/settings">Settings</router-link>
+<template>
+  <TabMenu :model="items" />
 </template>

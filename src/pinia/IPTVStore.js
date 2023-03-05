@@ -21,16 +21,24 @@ export const useIPTVStore = defineStore("IPTVStore", {
       try {
         const configFilename = import.meta.env.VITE_CONFIGFILE;
         const configFilepath = await path.resolveResource("resources/" + configFilename);
-        const configFound = await fs.exists(configFilename, { dir: path.BaseDirectory.Resource });
+        console.log("Config File:", configFilename, configFilepath);
+
+        const configFound = await fs.exists(configFilepath);
 
 
         /// FIXME THE SCOPE NEEDS TO BE SET.
         if (configFound) {
-        const configDocument = await fs.readTextFile(configFilepath);
-        const config = await JSON.parse(configDocument);
-        console.log("Loaded Config", config);
-        this.providers = config.providers;
-        return true;
+          const configDocument = await fs.readTextFile(configFilepath);
+          const config = await JSON.parse(configDocument);
+          console.log("Loaded Config", config);
+          this.providers = config.providers;
+          this.providers.map((o, index) => {
+            o.id = index;
+            o.vod = [];
+            o.live = [];
+            o.series = [];
+          });
+          return true;
         }
         else {
           console.log("No config file found.");
@@ -45,18 +53,23 @@ export const useIPTVStore = defineStore("IPTVStore", {
     async save() {
       try {
         const configData = {
-          "timestamp": Date.toISOString(),
-          "providers": structuredClone(this.providers)
+          "timestamp": new Date().toISOString(),
+          "providers": JSON.parse(JSON.stringify(this.providers))
         };
+        configData.providers.map((o) => {
+          delete o.id;
+          delete o.live;
+          delete o.vod;
+          delete o.series;
+        });
         const configFilename = import.meta.env.VITE_CONFIGFILE;
         const configFilepath = await path.resolveResource("resources/" + configFilename);
-        const configDocument = await fs.writeTextFile({
-            path: configFilepath,
-            contents: JSON.stringify(configData)
-          },
-          { dir: BaseDirectory.Resource }
+        const fp = await fs.writeTextFile(
+          configFilepath,
+          JSON.stringify(configData, null, 2)
         );
-        return configDocument;
+        console.log("Wrote Config", configFilepath);
+        return true;
       } catch (err) {
         console.log("Save Error", err);
         return false;
@@ -71,30 +84,55 @@ export const useIPTVStore = defineStore("IPTVStore", {
       }
     },
 
-    async getLiveCategories(providerId) {
-      console.log("getLiveCategories", providerId);
+    async getCategories(providerId, section) {
+      // @section = live|vod|series
+      console.log("getCategories", providerId);
       const p = this.providers[providerId];
       const hn = p.hostname;
       const un = p.username;
       const pw = p.password;
-      const url = `${hn}/player_api.php?username=${un}&password=${pw}&action=get_live_categories`;
+      const url = `${hn}/player_api.php?username=${un}&password=${pw}&action=get_${section}_categories`;
       console.log("URL:", url);
       const res = await fetch(url);
       const dat = await res.json();
       console.log("Got Categories", dat);
-      if (!p.live) {
-        p.live = [];
+      if (!p[section]) {
+        p[section] = [];
       }
       dat.map((cat) => {
         cat.provider_id = providerId;
         cat.streams = null;
-        p.live.push(cat);
+        p[section].push(cat);
       });
       return dat;
     },
 
-    async getLiveStreams(providerId, categoryId) {
-      console.log("getLiveStreams", providerId, categoryId);
+    async getInfo(providerId, section, streamId) {
+      // @section = vod|series
+      console.log("getInfo", providerId, section, streamId);
+      const p = this.providers[providerId];
+      const hn = p.hostname;
+      const un = p.username;
+      const pw = p.password;
+      const url = `${hn}/player_api.php?username=${un}&password=${pw}&action=get_${section}_info&${section}_id=${streamId}`;
+      console.log("URL:", url);
+      const res = await fetch(url);
+      const dat = await res.json();
+      console.log("Got Info", dat);
+      // if (!p[section]) {
+      //   p[section] = [];
+      // }
+      // dat.map((cat) => {
+      //   cat.provider_id = providerId;
+      //   cat.streams = null;
+      //   p[section].push(cat);
+      // });
+      return dat;
+    },
+
+    async getStreams(providerId, section, categoryId) {
+      // @section = live|vod|series
+      console.log("getStreams", providerId, section, categoryId);
       try {
         const p = this.providers[providerId];
         const hn = p.hostname;
@@ -102,20 +140,33 @@ export const useIPTVStore = defineStore("IPTVStore", {
         const pw = p.password;
         const id = categoryId;
 
-        const index = p.live.findIndex(o => {
+        const index = p[section].findIndex(o => {
           return o.category_id == categoryId;
         });
         if (index < 0) { return false; }
 
-        const url = `${hn}/player_api.php?username=${un}&password=${pw}&action=get_live_streams&category_id=${id}`;
+        let action = "undefined_action";
+        switch (section) {
+          case "live":
+            action = "get_live_streams";
+            break;
+          case "vod":
+            action = "get_vod_streams";
+            break;
+          case "series":
+            action = "get_series";
+            break;
+        }
+        
+        const url = `${hn}/player_api.php?username=${un}&password=${pw}&action=${action}&category_id=${id}`;
         console.log("URL:", url);
         const res = await fetch(url);
         const dat = await res.json();
-        console.log("Got Streams", dat);
-        p.live[index].streams = [];
+        console.log(`Got ${section} Streams`, dat);
+        p[section][index].streams = [];
         dat.map((stream) => {
           stream.provider_id = providerId;
-          p.live[index].streams.push(stream);
+          p[section][index].streams.push(stream);
         });
         return dat;
       } catch (err) {

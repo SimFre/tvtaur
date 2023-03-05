@@ -37,11 +37,13 @@ import Row from "primevue/row"; //optional for row
 import Sidebar from 'primevue/sidebar';
 import Skeleton from 'primevue/skeleton';
 import SplitButton from "primevue/splitbutton";
+import TabMenu from 'primevue/tabmenu';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToggleButton from 'primevue/togglebutton';
+import Toolbar from 'primevue/toolbar';
 import Tree from 'primevue/tree';
 import TreeTable from 'primevue/treetable';
 import 'primevue/resources/themes/saga-blue/theme.css' //theme
@@ -85,11 +87,13 @@ app.component("ProgressBar", ProgressBar);
 app.component("Sidebar", Sidebar)
 app.component("Skeleton", Skeleton)
 app.component("SplitButton", SplitButton)
+app.component("TabMenu", TabMenu);
 app.component("TabView", TabView);
 app.component("TabPanel", TabPanel);
 app.component("Textarea", Textarea);
 app.component("Toast", Toast);
 app.component("ToggleButton", ToggleButton);
+app.component("Toolbar", Toolbar);
 app.component("Tree", Tree);
 app.component("TreeTable", TreeTable);
 
