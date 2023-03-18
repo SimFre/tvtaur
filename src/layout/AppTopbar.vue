@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, computed, onMounted, onBeforeUnmount, defineEmits } from 'vue';
+    import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
     import { useLayout } from '@/layout/composables/layout';
     import { useRouter } from 'vue-router';
 
@@ -98,20 +98,20 @@
         </button>
 
         <!-- <button class="p-link layout-topbar-button"
-                    aria-label="Series"
-                    v-tooltip.top="'Series'"
-                    @click="onSectionClick('series')">
-                <i class="pi pi-video"></i>
-                <span>Series</span>
-            </button> -->
+                        aria-label="Series"
+                        v-tooltip.top="'Series'"
+                        @click="onSectionClick('series')">
+                    <i class="pi pi-video"></i>
+                    <span>Series</span>
+                </button> -->
 
         <!-- <button class="p-link layout-topbar-button"
-                    aria-label="Favorites"
-                    v-tooltip.top="'Favorites'"
-                    @click="onSectionClick('favorites')">
-                <i class="pi pi-heart"></i>
-                <span>Favorites</span>
-            </button> -->
+                        aria-label="Favorites"
+                        v-tooltip.top="'Favorites'"
+                        @click="onSectionClick('favorites')">
+                    <i class="pi pi-heart"></i>
+                    <span>Favorites</span>
+                </button> -->
 
         <button class="p-link layout-topbar-menu-button layout-topbar-button"
                 @click="onTopBarMenuButton()">
