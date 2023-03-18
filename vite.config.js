@@ -13,6 +13,9 @@ export default defineConfig({
   server: {
     port: 1420,
     strictPort: true,
+    //headers https://vitejs.dev/config/server-options.html#server-headers FIXME
+    // Cross-Origin-Opener-Policy: same-origin
+    // Cross-Origin-Embedder-Policy: require-corp
   },
   // to make use of `TAURI_DEBUG` and other env variables
   // https://tauri.studio/v1/api/config#buildconfig.beforedevcommand

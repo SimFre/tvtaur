@@ -6,6 +6,12 @@
 </script>
 
 <template>
-  <p>Welcome to TVTaur</p>
-  <samp>{{ iptv.debug }}</samp>
+  <div className="grid">
+    <div className="col-12">
+      <div className="card">
+        <h5>Welcome to TVTaur</h5>
+        <samp>{{ iptv.debug }}</samp>
+      </div>
+    </div>
+  </div>
 </template>

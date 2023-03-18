@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="surface-section">
+  <div class="surface-section border-1">
     <div class="font-medium text-3xl text-900 mb-3">Application Settings</div>
     <ul class="list-none p-0 m-0">
       <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">

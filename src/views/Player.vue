@@ -3,6 +3,7 @@
   import { useIPTVStore } from "@/pinia/IPTVStore.js";
   const iptv = useIPTVStore();
   // const visibleSidebar = ref(false);
+  const props = defineProps(['slug']);
 
   const stream = ref("Waiting");
   const playerurl = computed(() => {
@@ -33,19 +34,24 @@
 </script>
 
 <template>
-  <video v-if="playerurl"
-         :key="playerurl"
-         width="320"
-         height="240"
-         autoplay
-         controls>
-    <source :src="playerurl" />
-  </video>
-  <!-- <Button icon="pi pi-arrow-right" @click="visibleSidebar = true" /> -->
-  <samp>{{ playerurl ?? "blank" }}</samp>
-  <samp>{{ iptv.debug }}</samp>
+  <div className="grid">
+    <div className="col-12">
+      <div className="card">
+        <video v-if="playerurl"
+               :key="playerurl"
+               autoplay
+               controls
+               style="width: 100%; height: 100%;">
+          <source :src="playerurl" />
+        </video>
+        <!-- <Button icon="pi pi-arrow-right" @click="visibleSidebar = true" /> -->
+        <!-- <samp>{{ playerurl ?? "blank" }}</samp>
+                <samp>{{ iptv.debug }}</samp> -->
 
 
-  <!-- <samp>cat: {{ cat }}</samp> -->
-  <!-- <samp>stream: {{ stream }}</samp> -->
+        <!-- <samp>cat: {{ cat }}</samp> -->
+        <!-- <samp>stream: {{ stream }}</samp> -->
+      </div>
+    </div>
+  </div>
 </template>
