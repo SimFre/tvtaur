@@ -7,3 +7,6 @@ https://www.youtube.com/watch?v=-OTc0Ki7Sv0&ab_channel=Fireship
 
 // Stream ffmpeg to playlist, pick up with hls.
 https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
+
+// Use Tauri's HTTP package to play Hls.js livestreams
+https://gist.github.com/nathanbabcock/59c0298bed74ac48f7f209e30cf53b00
